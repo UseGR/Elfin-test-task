@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" id="scoring" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.19.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.20.0">
+  <decision id="scoring_v1" name="Скоринг-оценка">
+    <decisionTable id="DecisionTable_14z8rur" hitPolicy="FIRST">
+      <input id="Input_1" label="Компания является ИП" camunda:inputVariable="is_individual_undertaker">
+        <inputExpression id="InputExpression_1" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0z5cpln" label="Компания находится в запрещенном регионе" camunda:inputVariable="is_company_in_prohibited_region">
+        <inputExpression id="LiteralExpression_0dhvedi" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0jm2tqt" label="Капитал компании не соответствует скорингу" biodi:width="221" camunda:inputVariable="is_capital_low">
+        <inputExpression id="LiteralExpression_1hqhoua" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_15ta76y" label="Компания является резидентом РФ" camunda:inputVariable="is_resident_company">
+        <inputExpression id="LiteralExpression_1irogkd" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="Скоринг компании, false - успешный скоринг" name="is_scoring_failed" typeRef="boolean" />
+      <rule id="DecisionRule_0rrfek9">
+        <inputEntry id="UnaryTests_1l900eu">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1tild78">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_05v69wu">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0kys4k8">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1klc196">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1aht71n">
+        <inputEntry id="UnaryTests_1a891ub">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_00jm0o4">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0js6509">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_139twk7">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1pywxg5">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="scoring_v1">
+        <dc:Bounds height="80" width="180" x="160" y="100" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

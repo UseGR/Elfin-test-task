@@ -1,0 +1,10 @@
+{
+  "processId": "${json-unit.regex}^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
+  "individualTaxpayerNumber": "73250292018",
+  "regionalCode": 16,
+  "capital": 10000000,
+  "scoring": false,
+  "description": [
+    "Компания успешно прошла скоринг-оценку"
+  ]
+}

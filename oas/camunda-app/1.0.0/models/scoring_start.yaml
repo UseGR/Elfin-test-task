@@ -1,0 +1,36 @@
+openapi: 3.0.3
+info:
+  title: Модели запросов и ответов для эндпоинта /scoring/start ProcessController
+  version: 1.0.0
+paths:
+  /:
+components:
+  schemas:
+    ScoringStartResponse:
+      description: Формат ответа при успешном выполнении запроса
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          $ref: 'components.yaml#/components/schemas/id'
+  requestBodies:
+    ScoringStartRequest:
+      description: Запрос на запуск процесса скоринга компании
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - individualTaxpayerNumber
+              - regionalCode
+              - capital
+            properties:
+              individualTaxpayerNumber:
+                $ref: 'components.yaml#/components/schemas/individualTaxpayerNumber'
+              regionalCode:
+                $ref: 'components.yaml#/components/schemas/regionalCode'
+              capital:
+                $ref: 'components.yaml#/components/schemas/capital'
+

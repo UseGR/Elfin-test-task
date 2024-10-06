@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:tc:postgresql:12:///databasename?currentSchema=public
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+
+camunda:
+  bpm:
+    admin-user:
+      id: admin
+      password: admin
+    generic-properties:
+      properties:
+        historyTimeToLive: "P1D"
+
+contextV10:
+  url: ${wiremock.baseUrl}/context-api

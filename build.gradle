@@ -1,0 +1,184 @@
+import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
+
+plugins {
+    id 'java'
+    id 'org.springframework.boot'
+    id 'io.spring.dependency-management' version '1.1.6'
+    id 'org.openapi.generator'
+}
+
+group = 'ru.scoring.camunda-app'
+version = '1.0.0'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    set('springCloudVersion', "2023.0.3")
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web',
+            'org.springframework.cloud:spring-cloud-starter-openfeign',
+            'org.springframework.boot:spring-boot-starter-data-jpa',
+            'org.liquibase:liquibase-core',
+            'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter:7.21.0',
+            'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp:7.21.0',
+            'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-rest:7.21.0',
+            'org.camunda.bpm:camunda-engine-plugin-spin:7.21.0',
+            'org.camunda.spin:camunda-spin-core:1.23.0',
+            'org.camunda.spin:camunda-spin-dataformat-json-jackson:1.23.0',
+            'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.16.1',
+            'net.javacrumbs.json-unit:json-unit-assertj:2.38.0',
+            'com.fasterxml.jackson.core:jackson-databind:2.18.0',
+            'com.fasterxml.jackson.core:jackson-core:2.18.0',
+            'com.fasterxml.jackson.core:jackson-annotations:2.18.0',
+            'com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.18.0',
+            'com.fasterxml.jackson.datatype:jackson-datatype-jsr310',
+            'org.mapstruct:mapstruct:1.6.2',
+            'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+
+    [
+            'org.springframework.boot:spring-boot-starter-data-elasticsearch',
+            'org.springdoc:springdoc-openapi-ui:1.8.0',
+            'io.swagger.core.v3:swagger-annotations:2.2.23'
+    ].each { dep ->
+        implementation(dep) {
+            exclude group: 'commons-logging'
+        }
+    }
+
+    [
+            'org.projectlombok:lombok',
+            'org.mapstruct:mapstruct-processor:1.6.2'
+    ].each {
+        compileOnly it
+        testCompileOnly it
+        annotationProcessor it
+        testAnnotationProcessor it
+    }
+
+    runtimeOnly 'org.postgresql:postgresql'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test',
+            'org.springframework.cloud:spring-cloud-starter-contract-stub-runner:4.1.4',
+            'io.cucumber:cucumber-java:7.18.0',
+            'io.cucumber:cucumber-junit-platform-engine:7.18.0',
+            'io.cucumber:cucumber-spring:7.18.0',
+            'org.camunda.bpm.assert:camunda-bpm-assert:15.0.0',
+            'org.camunda.bpm.extension:camunda-bpm-assert-scenario:1.1.1',
+            'org.camunda.bpm.extension:camunda-bpm-process-test-coverage-junit5:1.0.3',
+            'org.camunda.bpm.extension:camunda-bpm-process-test-coverage-core:1.0.0',
+            'org.camunda.bpm.extension:camunda-bpm-junit5:1.1.0',
+            'io.rest-assured:rest-assured:5.5.0',
+            'io.rest-assured:spring-web-test-client:5.5.0',
+            'org.testcontainers:testcontainers',
+            'org.testcontainers:junit-jupiter',
+            'org.testcontainers:postgresql',
+            'org.awaitility:awaitility:4.2.2',
+            'org.junit.jupiter:junit-jupiter-params',
+            'org.junit.platform:junit-platform-suite-api',
+            'org.junit.platform:junit-platform-suite-engine',
+            'org.wiremock:wiremock-standalone:3.9.1',
+            'net.javacrumbs.json-unit:json-unit-assertj:3.4.1'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+tasks.named('bootJar') {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+sourceSets.main.java.srcDirs += "$buildDir/openapi/generated"
+
+tasks.register('generate process controller 1.0.0', GenerateTask) {
+    generatorName.set("spring")
+    inputSpec.set("$projectDir/oas/camunda-app/1.0.0/api.yaml")
+    outputDir.set("$buildDir/openapi/generated")
+    ignoreFileOverride.set("$projectDir/.openapi-generator-ignore")
+    configOptions.set([
+            library                            : "spring-boot",
+            invokerPackage                     : "ru.scoring.api_specifications.process_controller._1_0_0.server",
+            apiPackage                         : "ru.scoring.api_specifications.process_controller._1_0_0.server.api",
+            modelPackage                       : "ru.scoring.api_specifications.process_controller._1_0_0.server.model",
+            configPackage                      : "ru.scoring.api_specifications.process_controller._1_0_0.server.configuration",
+            basePackage                        : "ru.scoring.api_specifications.process_controller._1_0_0.server",
+            useOptional                        : "true",
+            openApiNullable                    : "false",
+            generateModelTests                 : "true",
+            generateApiTests                   : "true",
+            interfaceOnly                      : "false",
+            useSpringBoot3                     : "true",
+            sourceFolder                       : "",
+            testOutput                         : "$rootDir/src/java",
+            generateBuilders                   : "true",
+            generateConstructorWithAllArgs     : "true",
+            generateConstructorWithRequiredArgs: "true",
+            useTags                            : "true"
+    ])
+}
+
+tasks.register('generate context-api 1.0.0 Feign Client', GenerateTask) {
+    generatorName.set("spring")
+    inputSpec.set("$projectDir/oas/context-api/1.0.0/api.yaml")
+    outputDir.set("$buildDir/openapi/generated")
+    ignoreFileOverride.set(".openapi-generator-ignore")
+    configOptions.set([
+            library                            : "spring-cloud",
+            invokerPackage                     : "ru.scoring.api_specifications.context_api_controller._1_0_0.client",
+            apiPackage                         : "ru.scoring.api_specifications.context_api_controller._1_0_0.client.api",
+            modelPackage                       : "ru.scoring.api_specifications.context_api_controller._1_0_0.client.model",
+            configPackage                      : "ru.scoring.api_specifications.context_api_controller._1_0_0.client.configuration",
+            basePackage                        : "ru.scoring.api_specifications.context_api_controller._1_0_0.client",
+            useOptional                        : "true",
+            openApiNullable                    : "false",
+            generateModelTests                 : "true",
+            generateApiTests                   : "true",
+            interfaceOnly                      : "false",
+            useSpringBoot3                     : "true",
+            sourceFolder                       : "",
+            testOutput                         : "$rootDir/src/java",
+            generateBuilders                   : "true",
+            generateConstructorWithAllArgs     : "true",
+            generateConstructorWithRequiredArgs: "true",
+            useTags                            : "true"
+    ])
+}
+
+tasks.register('generate all') {
+    dependsOn(
+            'generate process controller 1.0.0',
+            'generate context-api 1.0.0 Feign Client'
+    )
+}
+
+compileJava {
+    options.compilerArgs += [
+            '-Amapstruct.defaultComponentModel=spring',
+            '-Amapstruct.unmappedSourcePolicy=WARN',
+    ]
+}
+
+compileJava.dependsOn 'generate all'

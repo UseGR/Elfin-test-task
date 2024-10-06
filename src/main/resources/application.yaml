@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: camunda_app
+  datasource:
+    url: jdbc:postgresql://localhost:5432/camunda_app_db
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    enabled: true
+    change-log: classpath:/org/camunda/bpm/engine/db/liquibase/camunda-changelog.xml
+
+camunda:
+  bpm:
+    default-serialization-format: "application/json"
+    webapp:
+      index-redirect-enabled: true
+    filter:
+      create: All tasks
+    database:
+      type: postgres
+    admin-user:
+      id: admin
+      password: admin
+    generic-properties:
+      properties:
+        historyTimeToLive: "P1D"
+
+contextV10:
+  url: http://localhost:8081

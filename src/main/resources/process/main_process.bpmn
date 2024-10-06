@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0ilemuj" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.19.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.20.0">
+  <bpmn:process id="main_process" name="Основной процесс" isExecutable="true" camunda:historyTimeToLive="180">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_0q717dg</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0q717dg" sourceRef="StartEvent_1" targetRef="Activity_1x2zdb8" />
+    <bpmn:serviceTask id="Activity_1x2zdb8" name="Инициализация переменных" camunda:delegateExpression="${InitializeVariables}">
+      <bpmn:incoming>Flow_0q717dg</bpmn:incoming>
+      <bpmn:outgoing>Flow_0bxi7x0</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0bxi7x0" sourceRef="Activity_1x2zdb8" targetRef="Activity_1nf35qo" />
+    <bpmn:sequenceFlow id="Flow_08di5yd" sourceRef="Activity_1nf35qo" targetRef="Activity_1gri6tl" />
+    <bpmn:businessRuleTask id="Activity_1gri6tl" name="Скоринг-оценка" camunda:resultVariable="is_scoring_failed" camunda:decisionRef="scoring_v1" camunda:decisionRefBinding="deployment" camunda:mapDecisionResult="singleEntry">
+      <bpmn:incoming>Flow_08di5yd</bpmn:incoming>
+      <bpmn:outgoing>Flow_1mz1l5p</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:sequenceFlow id="Flow_1mz1l5p" sourceRef="Activity_1gri6tl" targetRef="Activity_07o1vf1" />
+    <bpmn:serviceTask id="Activity_1nf35qo" name="Подготовка к скоринг-оценке" camunda:delegateExpression="${ScoringPreparement}">
+      <bpmn:incoming>Flow_0bxi7x0</bpmn:incoming>
+      <bpmn:outgoing>Flow_08di5yd</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_07o1vf1" name="Вывод результата скоринга" camunda:delegateExpression="${ScoringEnd}">
+      <bpmn:incoming>Flow_1mz1l5p</bpmn:incoming>
+      <bpmn:outgoing>Flow_034k3fj</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_16dzao1">
+      <bpmn:incoming>Flow_034k3fj</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_034k3fj" sourceRef="Activity_07o1vf1" targetRef="Event_16dzao1" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="main_process">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1482248_di" bpmnElement="Activity_1x2zdb8">
+        <dc:Bounds x="270" y="77" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1qntkmj_di" bpmnElement="Activity_1gri6tl">
+        <dc:Bounds x="590" y="77" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ogptlb_di" bpmnElement="Activity_1nf35qo">
+        <dc:Bounds x="430" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1yu2yph_di" bpmnElement="Activity_07o1vf1">
+        <dc:Bounds x="750" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_16dzao1_di" bpmnElement="Event_16dzao1">
+        <dc:Bounds x="912" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0q717dg_di" bpmnElement="Flow_0q717dg">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="270" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0bxi7x0_di" bpmnElement="Flow_0bxi7x0">
+        <di:waypoint x="370" y="117" />
+        <di:waypoint x="430" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_08di5yd_di" bpmnElement="Flow_08di5yd">
+        <di:waypoint x="530" y="117" />
+        <di:waypoint x="590" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1mz1l5p_di" bpmnElement="Flow_1mz1l5p">
+        <di:waypoint x="690" y="117" />
+        <di:waypoint x="750" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_034k3fj_di" bpmnElement="Flow_034k3fj">
+        <di:waypoint x="850" y="117" />
+        <di:waypoint x="912" y="117" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

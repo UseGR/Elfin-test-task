@@ -1,0 +1,27 @@
+openapi: 3.0.3
+info:
+  title: Общие модели полей
+  version: 1.0.0
+paths:
+  /:
+components:
+  schemas:
+    id:
+      description: Идентификатор процесса, по которому можно найти результат скоринга
+      type: string
+      format: uuid
+      example: "458548fb-c9ad-473f-8962-e71f0eeba774"
+    capital:
+      description: Капитал компании
+      type: integer
+      format: int64
+      example: 10000000
+    individualTaxpayerNumber:
+      description: ИНН компании
+      type: string
+      example: "73250292018"
+    regionalCode:
+      description: Код региона субъекта РФ
+      type: integer
+      format: int32
+      example: 16

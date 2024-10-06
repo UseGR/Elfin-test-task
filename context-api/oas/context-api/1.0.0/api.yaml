@@ -1,0 +1,44 @@
+openapi: 3.0.3
+info:
+  title: Context Api controller
+  description: Context Api controller
+  contact:
+    name: RusJavaDev
+  version: 1.0.0
+servers:
+  - url: http://localhost:8081
+tags:
+  - name: ContextApi
+    description: Context Api controller
+paths:
+  /api/v1.0/context/save:
+    post:
+      tags:
+        - ContextV10
+      operationId: contextSave
+      summary: Сохранение результатов скоринг-оценки компании
+      requestBody:
+        $ref: 'models/context_save.yaml#/components/requestBodies/ContextSaveRequest'
+      responses:
+        '200':
+          description: OK
+  /api/v1.0/context/get:
+    get:
+      tags:
+        - ContextV10
+      operationId: contextGet
+      summary: Получение результатов скоринг-оценки компании
+      parameters:
+        - in: query
+          name: processId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: 'models/context_get.yaml#/components/schemas/ContextGetResponse'

@@ -1,0 +1,11 @@
+{
+  "individualTaxpayerNumber": "990902920189",
+  "regionalCode": 24,
+  "capital": 10000,
+  "scoringResult": [
+    "CAPITAL_FAILURE",
+    "INDIVIDUAL_UNDERTAKER_FAILURE",
+    "PROHIBITED_REGION_FAILURE",
+    "RESIDENTIAL_FAILURE"
+  ]
+}

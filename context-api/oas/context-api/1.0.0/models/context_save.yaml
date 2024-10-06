@@ -1,0 +1,38 @@
+openapi: 3.0.3
+info:
+  title: Модели запросов и ответов для эндпоинта /context/save ContextApiController
+  version: 1.0.0
+paths:
+  /:
+components:
+  requestBodies:
+    ContextSaveRequest:
+      description: Запрос на сохранение результатов скоринг-оценки компании
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - processId
+              - individualTaxpayerNumber
+              - regionalCode
+              - capital
+              - scoring
+              - description
+            properties:
+              processId:
+                $ref: 'components.yaml#/components/schemas/id'
+              individualTaxpayerNumber:
+                $ref: 'components.yaml#/components/schemas/individualTaxpayerNumber'
+              regionalCode:
+                $ref: 'components.yaml#/components/schemas/regionalCode'
+              capital:
+                $ref: 'components.yaml#/components/schemas/capital'
+              scoring:
+                $ref: 'components.yaml#/components/schemas/scoring'
+              description:
+                type: array
+                items:
+                  $ref: 'components.yaml#/components/schemas/description'
+

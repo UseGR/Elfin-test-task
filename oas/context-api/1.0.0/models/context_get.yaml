@@ -1,0 +1,34 @@
+openapi: 3.0.3
+info:
+  title: Модели запросов и ответов для эндпоинта /context/get ContextApiController
+  version: 1.0.0
+paths:
+  /:
+components:
+  schemas:
+    ContextGetResponse:
+      description: Формат ответа при успешном выполнении запроса
+      type: object
+      required:
+        - processId
+        - individualTaxpayerNumber
+        - regionalCode
+        - capital
+        - scoring
+        - description
+      properties:
+        processId:
+          $ref: 'components.yaml#/components/schemas/id'
+        individualTaxpayerNumber:
+          $ref: 'components.yaml#/components/schemas/individualTaxpayerNumber'
+        regionalCode:
+          $ref: 'components.yaml#/components/schemas/regionalCode'
+        capital:
+          $ref: 'components.yaml#/components/schemas/capital'
+        scoring:
+          $ref: 'components.yaml#/components/schemas/scoring'
+        description:
+          type: array
+          items:
+            $ref: 'components.yaml#/components/schemas/description'
+

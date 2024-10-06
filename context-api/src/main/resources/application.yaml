@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: context-api
+  data:
+    elasticsearch:
+      repositories:
+        enabled: true
+  elasticsearch:
+    uris: localhost:9200
+
+server:
+  port: 8081

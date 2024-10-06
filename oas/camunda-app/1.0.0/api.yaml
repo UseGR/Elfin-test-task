@@ -1,0 +1,28 @@
+openapi: 3.0.3
+info:
+  title: Process controller
+  description: Process Controller
+  contact:
+    name: RusJavaDev
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+tags:
+  - name: ProcessController
+    description: Process controller
+paths:
+  /api/v1.0/scoring/start:
+    post:
+      tags:
+        - ProcessV10
+      operationId: scoringStart
+      summary: Запуск процесса скоринга компании
+      requestBody:
+        $ref: 'models/scoring_start.yaml#/components/requestBodies/ScoringStartRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: 'models/scoring_start.yaml#/components/schemas/ScoringStartResponse'

@@ -1,0 +1,60 @@
+version: "3.9"
+services:
+  elasticsearch:
+    image: elasticsearch:8.11.3
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - cluster.name=elasticsearch
+      - xpack.security.enabled=false
+    networks:
+      - backend-net
+
+  postgres:
+    container_name: postgres
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'postgres'
+      POSTGRES_DB: 'camunda_app_db'
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    networks:
+      - backend-net
+
+  camunda-app:
+    links:
+      - postgres
+      - context-api
+    container_name: camunda-app
+    build:
+      context: .
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/camunda_app_db
+      CONTEXTV10_URL: http://context-api:8081
+    restart: always
+    ports:
+      - "8080:8080"
+    networks:
+      - backend-net
+
+  context-api:
+    links:
+      - elasticsearch
+    container_name: context-api
+    build:
+      context: ./context-api
+    environment:
+      SPRING_ELASTICSEARCH_URIS: elasticsearch:9200
+    restart: always
+    ports:
+      - "8081:8081"
+    networks:
+      - backend-net
+
+networks:
+  backend-net:
+    driver: bridge
+
